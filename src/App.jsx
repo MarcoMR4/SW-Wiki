@@ -15,7 +15,7 @@ function App() {
     const fetchCharacters = async () => {
       try {
         const charactersFound = await swService.getCharacters(currentPage); 
-        setCharacters(charactersFound.results); 
+        setCharacters(charactersFound); 
       } 
       catch (error) {
         console.error("Error fetching characters:", error);

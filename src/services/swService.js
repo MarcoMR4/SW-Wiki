@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = `https://swapi.dev/api`
+const baseUrl = `https://swapi.info/api`
 
 
 const getCharacters = async (pageNumber) => {
@@ -12,7 +12,7 @@ const getCharacters = async (pageNumber) => {
         return result.data
     }
     catch(error){
-        console.error('Error fetching the data of characters')
+        console.error('Error fetching the data of SW characters in swService:', error)
     }
 }
 
