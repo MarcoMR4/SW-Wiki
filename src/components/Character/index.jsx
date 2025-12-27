@@ -9,22 +9,16 @@ const Character = ({ name, imageUrl, birth, height, eyes }) => {
     const modalInstance = useRef(null);
 
     const handleShowDetails = () => {
-        console.log("Mostrando modal...");
         setShowDetails(true);
     };
 
     useEffect(() => {
         if (showDetails && modalRef.current) {
-            console.log("Inicializando modal...");
-
             if (!modalInstance.current) {
                 modalInstance.current = new bootstrap.Modal(modalRef.current);
             }
-
             modalInstance.current.show();
-
             modalRef.current.addEventListener("hidden.bs.modal", () => {
-                console.log("Modal cerrado.");
                 setShowDetails(false);
             });
         }

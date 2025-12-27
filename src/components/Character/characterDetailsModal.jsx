@@ -1,4 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 
 const CharacterDetailsModal = ({
     show,
@@ -10,18 +12,38 @@ const CharacterDetailsModal = ({
     eyes,
     modalRef
 }) => {
+    // Persist modal instance and handler
+    const modalInstanceRef = useRef(null);
+    const handlerRef = useRef(null);
+
     useEffect(() => {
-        if (show && modalRef.current) {
+        const modalNode = modalRef.current;
+        if (!modalNode) return;
+
+        // Create modal instance once
+        if (!modalInstanceRef.current) {
             // @ts-ignore
-            const modalInstance = new window.bootstrap.Modal(modalRef.current);
-            modalInstance.show();
-            const handler = () => onClose();
-            modalRef.current.addEventListener("hidden.bs.modal", handler);
-            return () => {
-                modalRef.current?.removeEventListener("hidden.bs.modal", handler);
-            };
+            modalInstanceRef.current = new window.bootstrap.Modal(modalNode);
         }
-    }, [show, modalRef, onClose]);
+
+        // Handler for closing
+        if (!handlerRef.current) {
+            handlerRef.current = () => onClose();
+        }
+
+        // Add event listener once
+        modalNode.addEventListener("hidden.bs.modal", handlerRef.current);
+        return () => {
+            modalNode.removeEventListener("hidden.bs.modal", handlerRef.current);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        if (show && modalRef.current && modalInstanceRef.current) {
+            modalInstanceRef.current.show();
+        }
+    }, [show, modalRef]);
 
     return (
         <div className="modal fade" ref={modalRef} tabIndex={-1} role="dialog">
