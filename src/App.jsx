@@ -7,40 +7,20 @@ import { characterImages } from './constants/characters'
 
 
 function App() {
-
   const [characters, setCharacters] = useState([])
-  const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
     const fetchCharacters = async () => {
       try {
-        const charactersFound = await swService.getCharacters(currentPage); 
-        setCharacters(charactersFound.results); 
+        const charactersFound = await swService.getCharacters(); 
+        setCharacters(charactersFound); 
       } 
       catch (error) {
         console.error("Error fetching characters:", error);
       }
     };
     fetchCharacters(); 
-  }, [currentPage])
-
-  console.log(characters)
-
-  const handleChangePage = (direction) => {
-    if(currentPage === 3 && direction === "plus"){
-      setCurrentPage(1)
-    }
-    else if (direction === "plus"){
-      setCurrentPage(currentPage + 1)
-    }
-    else if (direction === "minus" && currentPage === 1){
-      setCurrentPage(currentPage)
-    }
-    else if (direction === "minus"){
-      setCurrentPage(currentPage - 1)
-    }
-  }
- 
+  }, [])
 
   return (
     <>
@@ -52,21 +32,12 @@ function App() {
 
         <div className="container">
           <div className='row'>
-          <nav aria-label="Page navigation example">
-            <ul className="pagination">
-              <li className="page-item"><a className="page-link" onClick={() => handleChangePage("minus")}>Previous</a></li>
-              <li className="page-item"><a className="page-link" >Page: {currentPage}</a></li>
-              <li className="page-item"><a className="page-link" onClick={() => handleChangePage("plus")}>Next</a></li>
-            </ul>
-          </nav>
-          </div>
-          <div className='row'>
             {characters.length > 0 ? (
-              characters.map((char, index) => {
+              characters.map((char) => {
                 const imageUrl = characterImages[char.name] || characterImages['Default']; 
                 return (
                   <Character  
-                    key={index} 
+                    key={char.url} 
                     name={char.name} 
                     imageUrl={imageUrl} 
                     url={char.url}
@@ -77,13 +48,10 @@ function App() {
                 );
               })
             ) : (
-              <p>Loading...</p>
+              <p>Loading characters...</p>
             )}
-            
           </div>
-        
         </div>
-
       </div>
     </>
   )
