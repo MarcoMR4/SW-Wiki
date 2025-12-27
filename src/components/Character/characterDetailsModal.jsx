@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min";
+import { Modal } from "bootstrap";
 
 const CharacterDetailsModal = ({
     show,
@@ -22,8 +21,7 @@ const CharacterDetailsModal = ({
 
         // Create modal instance once
         if (!modalInstanceRef.current) {
-            // @ts-ignore
-            modalInstanceRef.current = new window.bootstrap.Modal(modalNode);
+            modalInstanceRef.current = new Modal(modalNode);
         }
 
         // Handler for closing
