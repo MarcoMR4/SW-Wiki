@@ -33,11 +33,11 @@ function App() {
         <div className="container">
           <div className='row'>
             {characters.length > 0 ? (
-              characters.map((char, index) => {
+              characters.map((char) => {
                 const imageUrl = characterImages[char.name] || characterImages['Default']; 
                 return (
                   <Character  
-                    key={index} 
+                    key={char.url} 
                     name={char.name} 
                     imageUrl={imageUrl} 
                     url={char.url}
